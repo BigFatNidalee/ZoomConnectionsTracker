@@ -9,10 +9,18 @@ pytesseract.pytesseract.tesseract_cmd = cfg.tesseractInstallLocation
 membersOnline = 0
 
 
+def hasNumbers(inputString):
+	return any(char.isdigit() for char in inputString)
+
+
 def getMembers():
+	global membersOnline
+	members = membersOnline
 	img = getRectAsImage(cfg.membersCountPos)
 	txt = pytesseract.image_to_string(img)
-	members = int(''.join(i for i in txt if i.isdigit()))
+	if len(txt) > 0:
+		if hasNumbers(txt):
+			members = int(''.join(i for i in txt if i.isdigit()))
 	return members
 
 
